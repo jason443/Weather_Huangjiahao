@@ -8,6 +8,11 @@ public class Place {
     private String province;
     private String city;
 
+    public Place(String province, String city) {
+        this.province = province;
+        this.city = city;
+    }
+
     public void setProvince(String province) {
         this.province = province;
     }

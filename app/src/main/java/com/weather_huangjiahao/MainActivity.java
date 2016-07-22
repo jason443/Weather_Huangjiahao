@@ -1,10 +1,13 @@
 package com.weather_huangjiahao;
 
+import android.content.Intent;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.android.volley.RequestQueue;
@@ -18,7 +21,6 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity {
 
     private RequestQueue queue;
-    private TextView textView;
 
     private static final String TAG = "MainActivity";
 
@@ -32,13 +34,9 @@ public class MainActivity extends AppCompatActivity {
                     Today today = GsonDecode.todayDecode(response);
                     Log.d(TAG,today.getTemperature()+"Today");
                     List<Future> futures = GsonDecode.futureDecode(response);
-                    if(futures == null) {
-                        Log.d(TAG,"555555555");
-                    }
                     Log.d(TAG,futures.get(0).getTemperature()+"Future");
                     break;
                 case 1:
-                    Log.d(TAG,"INTENTNET`````");
                     break;
                 default:
                     break;
@@ -51,10 +49,16 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         queue = Volley.newRequestQueue(this);
-        textView = (TextView) findViewById(R.id.textView);
+        Button button = (Button) findViewById(R.id.button);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, PickProvinceActivity.class);
+                startActivity(intent);
+            }
+        });
 
-        String address = ToGetAddress.excute("广州");
-        Log.d(TAG,"111111111111111111");
-        VolleyRequest.sendVolleyRequest(address, queue, handler);
+        //String address = ToGetAddress.excute("广州");
+        //VolleyRequest.sendVolleyRequest(address, queue, handler);
     }
 }

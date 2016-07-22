@@ -8,6 +8,7 @@ import com.google.gson.reflect.TypeToken;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
@@ -45,6 +46,14 @@ public class GsonDecode {
             }
         }
         return returnList;
+    }
+
+    public static List<Place> cityDecode1(String s) {
+        Gson gson = new Gson();
+        List<Place> places;
+        JsonCityBean jsonCityBean = gson.fromJson(s, JsonCityBean.class);
+        places = jsonCityBean.getResult();
+        return places;
     }
 
     public static List<Place> cityDecode(String s, String province) {

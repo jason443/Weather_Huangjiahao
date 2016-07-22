@@ -10,6 +10,8 @@ import android.database.sqlite.SQLiteOpenHelper;
  */
 public class MyDatabaseHelper extends SQLiteOpenHelper {
 
+    private static MyDatabaseHelper instance = null;
+
     public static final String CREATE_PROVINCE = "create table Province(" +
             "id integer primary key autoincrement," +
             "province text)";
@@ -18,7 +20,19 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
             "id integer primary key autoincrement," +
             "city text," +
             "province text)";
-    public MyDatabaseHelper(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
+
+    public static MyDatabaseHelper getInstance(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
+        if(instance == null) {
+            synchronized (MyDatabaseHelper.class) {
+                if(instance == null) {
+                    instance = new MyDatabaseHelper(context, name, factory, version);
+                }
+            }
+        }
+        return instance;
+    }
+
+    private MyDatabaseHelper(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
         super(context,name,factory,version);
     }
 
